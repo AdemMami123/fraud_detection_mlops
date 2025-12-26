@@ -1,0 +1,24 @@
+fraud_detection_mlops/
+├── api/
+├── config/
+├── data/
+│   ├── external/
+│   ├── processed/
+│   └── raw/
+├── deployment/
+├── docker/
+├── models/
+├── notebooks/
+│   ├── experiments/
+│   └── exploratory/
+├── reports/
+│   ├── figures/
+│   └── metrics/
+├── src/
+│   ├── data/
+│   ├── evaluation/
+│   ├── features/
+│   ├── models/
+│   └── utils/
+└── tests/
+
