@@ -1,0 +1,36 @@
+# ==============================================================================
+# Credit Card Fraud Detection API - Development Dockerfile
+# ==============================================================================
+# For development with hot reload and debugging
+# Build: docker build -f docker/Dockerfile.dev -t fraud-detection-api:dev .
+# Run: docker run -p 8000:8000 -v $(pwd):/app fraud-detection-api:dev
+# ==============================================================================
+
+FROM python:3.11-slim
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app \
+    PIP_NO_CACHE_DIR=1
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy and install requirements
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Install development dependencies
+RUN pip install watchfiles httpx pytest
+
+# Expose the API port
+EXPOSE 8000
+
+# Run with hot reload for development
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

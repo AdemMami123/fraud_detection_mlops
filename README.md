@@ -4,8 +4,9 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.127.0-009688.svg)](https://fastapi.tiangolo.com/)
 [![MLflow](https://img.shields.io/badge/MLflow-3.8.0-0194E2.svg)](https://mlflow.org/)
 [![DVC](https://img.shields.io/badge/DVC-enabled-945DD6.svg)](https://dvc.org/)
+[![Docker](https://img.shields.io/badge/Docker-ready-2496ED.svg)](https://www.docker.com/)
 
-A complete end-to-end MLOps pipeline for credit card fraud detection using **Random Forest**, with experiment tracking via **MLflow**, data versioning with **DVC**, and REST API deployment via **FastAPI**.
+A complete end-to-end MLOps pipeline for credit card fraud detection using **Random Forest**, with experiment tracking via **MLflow**, data versioning with **DVC**, and REST API deployment via **FastAPI**. **Docker-ready** for cloud deployment.
 
 ---
 
@@ -16,6 +17,7 @@ A complete end-to-end MLOps pipeline for credit card fraud detection using **Ran
 - [Tech Stack](#tech-stack)
 - [Project Architecture](#project-architecture)
 - [Installation](#installation)
+- [Docker Deployment](#docker-deployment)
 - [Usage](#usage)
   - [1. Data Processing](#1-data-processing)
   - [2. Model Training](#2-model-training)
@@ -23,6 +25,7 @@ A complete end-to-end MLOps pipeline for credit card fraud detection using **Ran
 - [API Documentation](#api-documentation)
 - [Model Performance](#model-performance)
 - [Project Structure](#project-structure)
+- [Cloud Deployment](#cloud-deployment)
 - [Monitoring](#monitoring)
 - [Future Enhancements](#future-enhancements)
 - [License](#license)
@@ -154,7 +157,71 @@ dvc init
 
 ---
 
-## 🚀 Usage
+## � Docker Deployment
+
+### Prerequisites
+- Docker installed ([Get Docker](https://docs.docker.com/get-docker/))
+- Docker Compose (included with Docker Desktop)
+
+### Quick Start with Docker
+
+**Option 1: Using Docker Compose (Recommended)**
+
+```bash
+# Build and start the API container
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop the container
+docker-compose down
+```
+
+**Option 2: Using Docker directly**
+
+```bash
+# Build the image
+docker build -t fraud-detection-api .
+
+# Run the container
+docker run -d -p 8000:8000 --name fraud-api fraud-detection-api
+
+# Stop and remove
+docker stop fraud-api && docker rm fraud-api
+```
+
+### Access the API
+
+- **API Base URL**: http://localhost:8000
+- **Swagger Documentation**: http://localhost:8000/docs
+- **Health Check**: http://localhost:8000/health
+
+### Docker with MLflow (Full Stack)
+
+```bash
+# Start API + MLflow tracking server
+docker-compose --profile full up -d
+
+# Access:
+# - API: http://localhost:8000
+# - MLflow UI: http://localhost:5000
+```
+
+### Docker Commands Reference
+
+| Command | Description |
+|---------|-------------|
+| `docker-compose up -d` | Start containers in background |
+| `docker-compose up -d --build` | Rebuild and start containers |
+| `docker-compose down` | Stop and remove containers |
+| `docker-compose logs -f` | Follow container logs |
+| `docker-compose ps` | List running containers |
+| `docker-compose exec api bash` | Shell into API container |
+
+---
+
+## �🚀 Usage
 
 ### 1. Data Processing
 
@@ -326,6 +393,8 @@ fraud_detection_mlops/
 │   │   ├── train_features.csv  # Scaled features (gitignored)
 │   │   └── test_features.csv   # Scaled features (gitignored)
 │   └── external/               # External data sources
+├── docker/
+│   └── Dockerfile.dev          # Development Dockerfile with hot reload
 ├── models/
 │   └── rf_model.pkl            # Trained Random Forest model (gitignored)
 ├── mlruns/                     # MLflow experiment tracking (gitignored)
@@ -343,11 +412,76 @@ fraud_detection_mlops/
 │   └── models/
 │       ├── train_model.py      # Model training with MLflow tracking
 │       └── predict_model.py    # Inference utilities
+├── .dockerignore               # Files excluded from Docker build
 ├── .gitignore                  # Excludes large files (data, models, mlruns)
+├── docker-compose.yml          # Docker Compose configuration
+├── Dockerfile                  # Production Docker image
 ├── dvc.yaml                    # DVC pipeline definition
 ├── params.yaml                 # Centralized configuration
 ├── requirements.txt            # Python dependencies
 └── README.md                   # This file
+```
+
+---
+
+## ☁️ Cloud Deployment
+
+### Deploying to Cloud Platforms
+
+The Docker image can be deployed to any cloud platform that supports containers:
+
+#### **Google Cloud Run (Recommended)**
+
+```bash
+# Build and push to Google Container Registry
+gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/fraud-detection-api
+
+# Deploy to Cloud Run
+gcloud run deploy fraud-detection-api \
+  --image gcr.io/YOUR_PROJECT_ID/fraud-detection-api \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated
+```
+
+#### **AWS ECS (Elastic Container Service)**
+
+```bash
+# Build and push to ECR
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin YOUR_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
+
+docker build -t fraud-detection-api .
+docker tag fraud-detection-api:latest YOUR_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/fraud-detection-api:latest
+docker push YOUR_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/fraud-detection-api:latest
+
+# Deploy using ECS Fargate (via console or CLI)
+```
+
+#### **Azure Container Instances**
+
+```bash
+# Build and push to Azure Container Registry
+az acr build --registry YOUR_REGISTRY --image fraud-detection-api .
+
+# Deploy to Azure Container Instances
+az container create \
+  --resource-group YOUR_RG \
+  --name fraud-detection-api \
+  --image YOUR_REGISTRY.azurecr.io/fraud-detection-api \
+  --dns-name-label fraud-detection \
+  --ports 8000
+```
+
+#### **Docker Hub + Any Cloud**
+
+```bash
+# Push to Docker Hub
+docker build -t YOUR_USERNAME/fraud-detection-api .
+docker push YOUR_USERNAME/fraud-detection-api
+
+# Then pull and run on any cloud VM
+docker pull YOUR_USERNAME/fraud-detection-api
+docker run -d -p 8000:8000 YOUR_USERNAME/fraud-detection-api
 ```
 
 ---

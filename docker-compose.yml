@@ -1,0 +1,76 @@
+# ==============================================================================
+# Credit Card Fraud Detection - Docker Compose Configuration
+# ==============================================================================
+# Usage:
+#   Start:    docker-compose up -d
+#   Stop:     docker-compose down
+#   Logs:     docker-compose logs -f
+#   Rebuild:  docker-compose up -d --build
+# ==============================================================================
+
+version: '3.8'
+
+services:
+  # ----------------------------------------------------------------------------
+  # Fraud Detection API Service
+  # ----------------------------------------------------------------------------
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fraud-detection-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount models directory for easy model updates without rebuilding
+      - ./models:/app/models:ro
+      # Mount params for configuration changes
+      - ./params.yaml:/app/params.yaml:ro
+      # Mount reports for logging persistence
+      - ./reports:/app/reports
+    environment:
+      - PYTHONUNBUFFERED=1
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # ----------------------------------------------------------------------------
+  # MLflow Tracking Server (Optional - for experiment tracking)
+  # ----------------------------------------------------------------------------
+  mlflow:
+    image: python:3.11-slim
+    container_name: mlflow-server
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlruns:/mlruns
+      - ./mlflow.db:/mlflow.db
+    command: >
+      bash -c "pip install mlflow && 
+               mlflow server 
+               --backend-store-uri sqlite:///mlflow.db 
+               --default-artifact-root /mlruns 
+               --host 0.0.0.0 
+               --port 5000"
+    restart: unless-stopped
+    profiles:
+      - full  # Only starts with: docker-compose --profile full up
+
+# ==============================================================================
+# Networks
+# ==============================================================================
+networks:
+  default:
+    name: fraud-detection-network
+
+# ==============================================================================
+# Volumes (for data persistence)
+# ==============================================================================
+volumes:
+  mlflow-data:
+    driver: local
