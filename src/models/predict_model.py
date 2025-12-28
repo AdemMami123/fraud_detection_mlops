@@ -52,9 +52,16 @@ def predict_proba(model, data_dict: Dict) -> float:
     Returns:
         Fraud probability (float between 0.0 and 1.0)
     """
-    # Convert dictionary to pandas DataFrame (model expects DataFrame input)
-    # The model was trained on a DataFrame, so we need to match that format
-    df = pd.DataFrame([data_dict])
+    # Define the exact feature order used during model training
+    # This MUST match the order in the training data (excluding 'Class')
+    feature_order = [
+        'Time', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9',
+        'V10', 'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19',
+        'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Amount'
+    ]
+    
+    # Convert dictionary to pandas DataFrame with correct column order
+    df = pd.DataFrame([data_dict])[feature_order]
     
     # Get prediction probabilities [prob_normal, prob_fraud]
     # predict_proba returns array like [[0.85, 0.15]] for each row
