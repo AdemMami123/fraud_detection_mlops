@@ -1,0 +1,136 @@
+% Conclusion and Future Work
+
+\section*{Objectives Recap}
+
+This project aimed to design and implement a complete MLOps pipeline for credit card fraud detection. The specific objectives were to:
+
+\begin{enumerate}
+    \item Develop a high-performance classification model
+    \item Establish a reproducible pipeline with DVC
+    \item Implement experiment tracking with MLflow
+    \item Deploy the model via a REST API
+    \item Create a modern user interface
+    \item Containerize the application with Docker
+\end{enumerate}
+
+\section*{Summary of Work Accomplished}
+
+\subsection*{Data Analysis}
+
+We conducted an in-depth analysis of the Kaggle dataset containing 284,807 transactions, of which only 0.172\% are fraudulent. This analysis revealed:
+\begin{itemize}
+    \item Extreme class imbalance requiring specific techniques
+    \item Discriminative patterns in PCA features
+    \item The importance of variables V17, V14, and V12 for detection
+\end{itemize}
+
+\subsection*{Modeling}
+
+The Random Forest Classifier model was trained with the following performance:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|}
+\hline
+\textbf{Metric} & \textbf{Value} \\ \hline
+ROC-AUC & 0.9766 \\ \hline
+F1-Score & 0.8223 \\ \hline
+Precision & 81.82\% \\ \hline
+Recall & 82.65\% \\ \hline
+\end{tabular}
+\caption{Model Performance Summary}
+\end{table}
+
+These results demonstrate the model's ability to effectively detect frauds while maintaining an acceptable false positive rate.
+
+\subsection*{MLOps Infrastructure}
+
+The infrastructure put in place includes:
+\begin{itemize}
+    \item \textbf{DVC}: Data versioning and pipeline orchestration
+    \item \textbf{MLflow}: Experiment tracking and model registry
+    \item \textbf{FastAPI}: High-performance REST API with automatic documentation
+    \item \textbf{Docker}: Containerization for portable deployment
+\end{itemize}
+
+\subsection*{Web Application}
+
+The interface developed with Next.js offers:
+\begin{itemize}
+    \item Real-time prediction for individual transactions
+    \item Batch processing with CSV import/export
+    \item Usage statistics dashboard
+    \item Modern and responsive design
+\end{itemize}
+
+\section*{Main Contributions}
+
+The main contributions of this project are:
+
+\begin{enumerate}
+    \item \textbf{Complete MLOps Pipeline}: An end-to-end implementation, from data preprocessing to production deployment, following industry best practices.
+    
+    \item \textbf{Imbalance Management}: An effective class weighting strategy integrated into the Random Forest model.
+    
+    \item \textbf{Reproducibility}: Every pipeline step is versioned and can be exactly reproduced.
+    
+    \item \textbf{Documentation}: The code is documented and the API automatically generates its documentation.
+\end{enumerate}
+
+\section*{Challenges Encountered}
+
+During this project, several challenges were encountered:
+
+\begin{itemize}
+    \item \textbf{Data Imbalance}: The 578:1 ratio between classes required particular attention when evaluating metrics.
+    
+    \item \textbf{Interpretability}: With anonymized features (V1-V28), business interpretation of model decisions is limited.
+    
+    \item \textbf{Tool Configuration}: Integrating DVC, MLflow, and Docker required careful configuration.
+\end{itemize}
+
+\section*{Future Work and Improvements}
+
+\subsection*{Model Improvements}
+
+\begin{itemize}
+    \item \textbf{Model Ensemble}: Combine multiple algorithms (XGBoost, LightGBM, Neural Networks) to improve performance.
+    
+    \item \textbf{SMOTE}: Test synthetic oversampling to handle imbalance.
+    
+    \item \textbf{Hyperparameter Tuning}: Use Optuna or Ray Tune for automatic hyperparameter optimization.
+    
+    \item \textbf{Sequential Models}: Explore LSTMs to capture temporal dependencies in transaction sequences.
+\end{itemize}
+
+\subsection*{MLOps Improvements}
+
+\begin{itemize}
+    \item \textbf{CI/CD}: Set up a continuous integration pipeline with GitHub Actions to automate testing and deployment.
+    
+    \item \textbf{Production Monitoring}: Implement drift detection (data drift, concept drift) with tools like Evidently AI.
+    
+    \item \textbf{A/B Testing}: Infrastructure to compare performance of different model versions in production.
+    
+    \item \textbf{Feature Store}: Centralize feature management to ensure consistency between training and inference.
+\end{itemize}
+
+\subsection*{Application Improvements}
+
+\begin{itemize}
+    \item \textbf{Authentication}: Add an authentication system to secure access.
+    
+    \item \textbf{Advanced Visualizations}: Temporal graphs, probability heatmaps, etc.
+    
+    \item \textbf{Explainability}: Integrate SHAP or LIME to explain individual predictions.
+    
+    \item \textbf{Alerting}: Real-time notifications when high-probability frauds are detected.
+\end{itemize}
+
+\section*{Final Conclusion}
+
+This project demonstrates the feasibility and effectiveness of an MLOps pipeline for credit card fraud detection. By combining proven machine learning techniques with modern model lifecycle management tools, we have built a system capable of detecting over 82\% of frauds with precision exceeding 81\%.
+
+The reproducibility, traceability, and deployment ease offered by this architecture constitute a solid foundation for real production deployment. The identified improvement perspectives pave the way for future work that could further enhance system performance and robustness.
+
+This work illustrates how MLOps practices, by industrializing data science processes, enable the transition from prototype to production in a structured and maintainable manner.

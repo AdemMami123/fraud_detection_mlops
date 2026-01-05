@@ -1,0 +1,182 @@
+% Chapter 2: State of the Art
+
+\section{Introduction}
+
+This chapter presents a state of the art of fraud detection techniques and MLOps practices. We first examine traditional and modern fraud detection approaches, then introduce the fundamental concepts of MLOps that guide our solution architecture.
+
+\section{Fraud Detection Techniques}
+
+\subsection{Rule-Based Approaches}
+
+Historically, fraud detection systems relied on manually defined expert rules. These rules typically include:
+
+\begin{itemize}
+    \item Amount thresholds (transactions above a certain amount)
+    \item Transaction frequency (number of transactions within a time window)
+    \item Geographic location (transactions from high-risk countries)
+    \item Unusual purchasing patterns
+\end{itemize}
+
+\textbf{Advantages:} Simplicity, interpretability, ease of updating.
+
+\textbf{Disadvantages:} Rigidity, inability to detect new patterns, high false positive rate.
+
+\subsection{Statistical Approaches}
+
+Traditional statistical methods include:
+
+\begin{description}
+    \item[Logistic Regression] Simple but effective linear model for binary classification.
+    \item[Discriminant Analysis] Class separation based on linear combinations of features.
+    \item[Anomaly Detection] Identification of transactions that significantly deviate from normal behavior.
+\end{description}
+
+\subsection{Machine Learning Approaches}
+
+\subsubsection{Decision Trees and Ensembles}
+
+Ensemble methods are particularly popular for fraud detection:
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}\textit{[Placeholder: Diagram illustrating Random Forest operation with multiple decision trees]}\vspace{3cm}}}
+    \caption{Random Forest Classifier Architecture}
+    \label{fig:random_forest}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Random Forest}: Ensemble of decision trees trained on bootstrap subsamples. Robust to overfitting and capable of handling imbalanced data with the \texttt{class\_weight='balanced'} option.
+    
+    \item \textbf{Gradient Boosting (XGBoost, LightGBM)}: Sequential construction of trees, each tree correcting the errors of the previous one. Very performant but more sensitive to hyperparameters.
+    
+    \item \textbf{Isolation Forest}: Anomaly detection algorithm based on the principle that anomalies are easier to isolate.
+\end{itemize}
+
+\subsubsection{Neural Networks}
+
+Deep learning approaches offer superior performance for certain use cases:
+
+\begin{itemize}
+    \item \textbf{Multilayer Perceptrons (MLP)}: Fully-connected networks for classification.
+    \item \textbf{Autoencoders}: Unsupervised learning for anomaly detection.
+    \item \textbf{LSTM/GRU}: Recurrent networks to capture temporal dependencies in transaction sequences.
+\end{itemize}
+
+\subsection{Comparison of Approaches}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Method} & \textbf{Accuracy} & \textbf{Interpretability} & \textbf{Training Time} & \textbf{Latency} \\ \hline
+Manual Rules & Low & Very High & N/A & Very Low \\ \hline
+Logistic Regression & Medium & High & Low & Very Low \\ \hline
+Random Forest & High & Medium & Medium & Low \\ \hline
+XGBoost & Very High & Medium & Medium & Low \\ \hline
+Deep Learning & Very High & Low & High & Medium \\ \hline
+\end{tabular}
+\caption{Comparison of different fraud detection approaches}
+\label{tab:comparison}
+\end{table}
+
+\section{Introduction to MLOps}
+
+\subsection{Definition and Principles}
+
+MLOps (Machine Learning Operations) is a discipline that combines Machine Learning, DevOps, and data engineering to deploy and maintain ML systems in production reliably and efficiently.
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{4cm}\textit{[Placeholder: MLOps lifecycle diagram showing phases: Data $\rightarrow$ Model $\rightarrow$ Deploy $\rightarrow$ Monitor $\rightarrow$ Retrain]}\vspace{4cm}}}
+    \caption{MLOps Lifecycle}
+    \label{fig:mlops_lifecycle}
+\end{figure}
+
+The fundamental principles of MLOps include:
+
+\begin{enumerate}
+    \item \textbf{Automation}: Reduce manual interventions at each pipeline step.
+    \item \textbf{Reproducibility}: Ensure that each experiment can be exactly reproduced.
+    \item \textbf{Versioning}: Version not only code, but also data and models.
+    \item \textbf{Monitoring}: Continuously monitor model performance in production.
+    \item \textbf{Testing}: Validate data quality, code, and models.
+\end{enumerate}
+
+\subsection{MLOps Maturity Levels}
+
+Google defines three MLOps maturity levels:
+
+\begin{description}
+    \item[Level 0 - Manual] Entirely manual process, no automated pipeline. Suitable for prototypes.
+    \item[Level 1 - ML Pipeline] Automated pipeline for training, but manual deployment.
+    \item[Level 2 - CI/CD for ML] Complete automation including continuous training and automatic deployment.
+\end{description}
+
+Our project targets \textbf{Level 1} with elements of Level 2.
+
+\section{MLOps Tools Used}
+
+\subsection{DVC (Data Version Control)}
+
+DVC is an open-source tool for data and ML pipeline versioning. It allows:
+
+\begin{itemize}
+    \item Versioning large files (data, models) without storing them in Git
+    \item Defining reproducible pipelines via a \texttt{dvc.yaml} file
+    \item Sharing data between collaborators via remote storage (S3, GCS, Azure)
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.8\textwidth}{\centering\vspace{2cm}\textit{[Placeholder: DVC logo and diagram of its operation with Git]}\vspace{2cm}}}
+    \caption{DVC Integration with Git}
+    \label{fig:dvc}
+\end{figure}
+
+\subsection{MLflow}
+
+MLflow is an open-source platform for managing the ML model lifecycle. Its main components are:
+
+\begin{description}
+    \item[Tracking] Recording parameters, metrics, and artifacts for each run.
+    \item[Projects] Packaging ML code for reproducibility.
+    \item[Models] Standard format for saving and deploying models.
+    \item[Registry] Centralized management of model versions.
+\end{description}
+
+\subsection{FastAPI}
+
+FastAPI is a modern Python framework for building REST APIs. Its advantages include:
+
+\begin{itemize}
+    \item Performance close to asynchronous frameworks (Starlette)
+    \item Native data validation (Pydantic)
+    \item Automatic interactive documentation (Swagger/OpenAPI)
+    \item Python type hints support for better maintainability
+\end{itemize}
+
+\subsection{Docker}
+
+Docker enables application containerization to ensure a consistent execution environment:
+
+\begin{itemize}
+    \item Dependency isolation
+    \item Portability between environments (dev, staging, prod)
+    \item Easy deployment on cloud platforms (AWS ECS, GCP Cloud Run, Azure Container Instances)
+\end{itemize}
+
+\section{Related Work}
+
+Several academic and industrial works have addressed fraud detection:
+
+\begin{itemize}
+    \item \textbf{Dal Pozzolo et al. (2015)} proposed an adaptive approach using undersampling techniques to handle class imbalance.
+    
+    \item \textbf{Google Pay} uses recurrent neural networks to analyze transaction sequences in real-time.
+    
+    \item \textbf{PayPal} has developed a hybrid system combining expert rules and ML, processing over 5 billion transactions per year.
+\end{itemize}
+
+\section{Summary}
+
+This chapter has presented the state of the art of fraud detection techniques, from the simplest (rules) to the most sophisticated (deep learning). We have also introduced MLOps concepts and the tools we will use in our implementation. The choice of Random Forest, combined with a robust MLOps infrastructure, represents a good compromise between performance, interpretability, and ease of deployment.

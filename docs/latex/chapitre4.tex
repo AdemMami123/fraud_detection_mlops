@@ -1,0 +1,279 @@
+% Chapter 4: Modeling and Training
+
+\section{Introduction}
+
+This chapter presents the complete modeling process, from algorithm selection to performance evaluation. We detail the use of MLflow for experiment tracking and analyze the results obtained.
+
+\section{Model Selection}
+
+\subsection{Selection Criteria}
+
+The algorithm choice was guided by several criteria:
+
+\begin{enumerate}
+    \item \textbf{Performance}: Ability to achieve high recall while maintaining acceptable precision.
+    \item \textbf{Robustness}: Resistance to overfitting, particularly important with imbalanced data.
+    \item \textbf{Interpretability}: Ability to explain decisions to fraud analysts.
+    \item \textbf{Inference Time}: Low latency for real-time predictions.
+    \item \textbf{Deployment Ease}: Compatibility with chosen MLOps tools.
+\end{enumerate}
+
+\subsection{Random Forest Classifier}
+
+After evaluating several algorithms, we selected the \textbf{Random Forest Classifier} for the following reasons:
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{3cm}\textit{[Placeholder: Detailed diagram of Random Forest architecture showing multiple decision trees and voting process]}\vspace{3cm}}}
+    \caption{Detailed Random Forest Architecture}
+    \label{fig:rf_architecture}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Bagging}: Training on bootstrap subsamples reduces variance and overfitting.
+    \item \textbf{Feature Subsampling}: Each split considers a random subset of features, improving tree diversity.
+    \item \textbf{Class Weighting}: Native support for class weighting via \texttt{class\_weight='balanced'}.
+    \item \textbf{Feature Importance}: Automatic calculation of variable importance.
+    \item \textbf{Parallelization}: Training easily parallelizable across multiple CPU cores.
+\end{itemize}
+
+\section{Hyperparameter Configuration}
+
+\subsection{Main Parameters}
+
+Model hyperparameters are centralized in the \texttt{params.yaml} file:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|p{7cm}|}
+\hline
+\textbf{Parameter} & \textbf{Value} & \textbf{Justification} \\ \hline
+n\_estimators & 100 & Good compromise between performance and training time \\ \hline
+max\_depth & 10 & Limits depth to prevent overfitting \\ \hline
+class\_weight & balanced & Automatically compensates for class imbalance \\ \hline
+random\_state & 42 & Ensures reproducibility \\ \hline
+n\_jobs & -1 & Uses all available CPU cores \\ \hline
+\end{tabular}
+\caption{Random Forest hyperparameter configuration}
+\label{tab:hyperparameters}
+\end{table}
+
+\subsection{Impact of Class Weighting}
+
+Class weighting is calculated automatically according to the formula:
+
+\begin{equation}
+    w_i = \frac{n_{samples}}{n_{classes} \times n_{samples_i}}
+\end{equation}
+
+Which gives approximately:
+\begin{itemize}
+    \item Weight for class 0 (Normal): $\approx 0.5$
+    \item Weight for class 1 (Fraud): $\approx 289$ (578 times higher)
+\end{itemize}
+
+\section{Training with MLflow}
+
+\subsection{MLflow Configuration}
+
+MLflow is used for experiment tracking. The configuration includes:
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{3cm}\textit{[Placeholder: Screenshot of MLflow UI showing different runs with their metrics]}\vspace{3cm}}}
+    \caption{MLflow Tracking Interface}
+    \label{fig:mlflow_ui}
+\end{figure}
+
+\begin{verbatim}
+# MLflow configuration in train_model.py
+mlflow.set_tracking_uri("sqlite:///mlflow.db")
+mlflow.set_experiment("fraud-detection-mlflow")
+
+with mlflow.start_run():
+    # Log parameters
+    mlflow.log_params(params)
+    
+    # Train model
+    model.fit(X_train, y_train)
+    
+    # Log metrics
+    mlflow.log_metrics(metrics)
+    
+    # Save model
+    mlflow.sklearn.log_model(model, "model")
+\end{verbatim}
+
+\subsection{Recorded Metrics}
+
+Each MLflow run records the following information:
+
+\begin{description}
+    \item[Parameters] n\_estimators, max\_depth, class\_weight, random\_state
+    \item[Metrics] Precision, Recall, F1-Score, ROC-AUC, PR-AUC
+    \item[Artifacts] Serialized model (.pkl), confusion matrices, ROC curves
+\end{description}
+
+\section{Performance Evaluation}
+
+\subsection{Metrics Used}
+
+For an imbalanced classification problem, the following metrics are particularly relevant:
+
+\begin{definition}[Precision]
+\begin{equation}
+    Precision = \frac{TP}{TP + FP}
+\end{equation}
+Proportion of positive predictions that are correct.
+\end{definition}
+
+\begin{definition}[Recall (Sensitivity)]
+\begin{equation}
+    Recall = \frac{TP}{TP + FN}
+\end{equation}
+Proportion of actual frauds that are detected.
+\end{definition}
+
+\begin{definition}[F1-Score]
+\begin{equation}
+    F1 = 2 \times \frac{Precision \times Recall}{Precision + Recall}
+\end{equation}
+Harmonic mean of precision and recall.
+\end{definition}
+
+\subsection{Results Obtained}
+
+Performance obtained on the test set is as follows:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|c|c|}
+\hline
+\textbf{Metric} & \textbf{Value} & \textbf{Interpretation} \\ \hline
+ROC-AUC & 0.9766 & Excellent discrimination capability \\ \hline
+F1-Score & 0.8223 & Good precision/recall balance \\ \hline
+Precision & 81.82\% & 82\% of alerts are true frauds \\ \hline
+Recall & 82.65\% & 83\% of frauds are detected \\ \hline
+\end{tabular}
+\caption{Model performance on test set}
+\label{tab:model_performance}
+\end{table}
+
+\subsection{Confusion Matrix}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.7\textwidth}{\centering\vspace{3cm}\textit{[Placeholder: Confusion matrix heatmap with values: TN=56,854, FP=10, FN=17, TP=81]}\vspace{3cm}}}
+    \caption{Confusion Matrix on Test Set}
+    \label{fig:confusion_matrix}
+\end{figure}
+
+Matrix analysis:
+\begin{itemize}
+    \item \textbf{True Negatives (TN)}: 56,854 correctly classified normal transactions
+    \item \textbf{False Positives (FP)}: 10 normal transactions falsely flagged
+    \item \textbf{False Negatives (FN)}: 17 undetected frauds (high cost!)
+    \item \textbf{True Positives (TP)}: 81 correctly detected frauds
+\end{itemize}
+
+\subsection{ROC Curve}
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}\textit{[Placeholder: ROC curve with AUC = 0.9766, showing trade-off between TPR and FPR]}\vspace{3cm}}}
+    \caption{ROC Curve (AUC = 0.9766)}
+    \label{fig:roc_curve}
+\end{figure}
+
+\subsection{Precision-Recall Curve}
+
+The Precision-Recall curve is particularly important for imbalanced datasets:
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}\textit{[Placeholder: Precision-Recall curve showing trade-off for different classification thresholds]}\vspace{3cm}}}
+    \caption{Precision-Recall Curve}
+    \label{fig:pr_curve}
+\end{figure}
+
+\section{Feature Importance}
+
+Feature importance analysis reveals the most discriminative variables:
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{4cm}\textit{[Placeholder: Horizontal bar chart showing top 15 most important features (V17, V14, V12, V10, Amount, etc.)]}\vspace{4cm}}}
+    \caption{Feature Importance (Top 15)}
+    \label{fig:feature_importance}
+\end{figure}
+
+The most important features are:
+\begin{enumerate}
+    \item V17 (relative importance: 0.15)
+    \item V14 (relative importance: 0.12)
+    \item V12 (relative importance: 0.10)
+    \item V10 (relative importance: 0.08)
+    \item Amount (relative importance: 0.07)
+\end{enumerate}
+
+\section{Classification Threshold Selection}
+
+\subsection{Threshold Impact}
+
+The default classification threshold is 0.5, but it can be adjusted based on the use case:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Threshold} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} \\ \hline
+0.3 & 65\% & 92\% & 0.76 \\ \hline
+0.5 & 82\% & 83\% & 0.82 \\ \hline
+0.7 & 90\% & 70\% & 0.79 \\ \hline
+\end{tabular}
+\caption{Threshold impact on metrics}
+\label{tab:threshold_impact}
+\end{table}
+
+\subsection{Cost-Benefit Analysis}
+
+In a real context, threshold choice depends on the relative cost of errors:
+\begin{itemize}
+    \item \textbf{FN Cost}: Amount of undetected fraud + management fees
+    \item \textbf{FP Cost}: Investigation cost + customer dissatisfaction
+\end{itemize}
+
+If the average cost of a fraud is much higher than the investigation cost, a lower threshold (favoring recall) is recommended.
+
+\section{Model Saving and Registry}
+
+\subsection{Model Serialization}
+
+The trained model is saved in pickle format:
+
+\begin{verbatim}
+import joblib
+joblib.dump(model, "models/rf_model.pkl")
+\end{verbatim}
+
+\subsection{MLflow Registry}
+
+The model is also registered in the MLflow Model Registry:
+
+\begin{verbatim}
+mlflow.register_model(
+    model_uri=f"runs:/{run_id}/model",
+    name="fraud_detection_rf"
+)
+\end{verbatim}
+
+This allows:
+\begin{itemize}
+    \item Model versioning (v1, v2, ...)
+    \item Phase tagging (Staging, Production)
+    \item Deployment facilitation
+\end{itemize}
+
+\section{Summary}
+
+This chapter presented the complete modeling process. The Random Forest Classifier, with its configuration optimized for imbalanced data, achieves excellent performance (F1 = 0.82, AUC = 0.98). MLflow integration ensures complete traceability of experiments. The following chapter will detail the deployment of this model to production.

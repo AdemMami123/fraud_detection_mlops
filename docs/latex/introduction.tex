@@ -1,0 +1,61 @@
+
+\markboth{\MakeUppercase{General Introduction}}{}%
+\addcontentsline{toc}{chapter}{General Introduction}%
+
+\section*{Context and Motivation}
+
+In an increasingly digital world, electronic financial transactions have become the norm. Every day, millions of credit card payments are made worldwide, representing trillions of dollars in transactions. This exponential growth is unfortunately accompanied by a proportional increase in fraud attempts. According to the 2023 Nilson Report, global payment card fraud losses exceeded \$32 billion, with alarming projections for the coming years.
+
+Faced with this growing threat, financial institutions are investing heavily in automated detection systems based on artificial intelligence. Traditional rule-based methods are proving insufficient against increasingly sophisticated fraudsters who continually adapt their techniques.
+
+\section*{Problem Statement}
+
+Credit card fraud detection presents several major technical challenges:
+
+\begin{itemize}
+    \item \textbf{Class Imbalance}: Fraudulent transactions represent less than 0.2\% of all transactions, creating an extreme imbalance problem that can bias classification models.
+    
+    \item \textbf{Evolving Patterns}: Fraudsters constantly adapt their methods, requiring models capable of generalizing and detecting new types of fraud.
+    
+    \item \textbf{Real-time Constraints}: Decisions must be made in milliseconds to avoid impacting user experience.
+    
+    \item \textbf{Asymmetric Error Costs}: A false negative (undetected fraud) costs much more than a false positive (blocked legitimate transaction).
+\end{itemize}
+
+Beyond these Machine Learning challenges, deploying and maintaining such systems in production presents its own complexities. This is where \textbf{MLOps} (Machine Learning Operations) comes into play.
+
+\section*{Project Objectives}
+
+This project aims to design and implement a complete MLOps pipeline for credit card fraud detection. The specific objectives are:
+
+\begin{enumerate}
+    \item \textbf{Develop a high-performance model} for classification capable of detecting fraudulent transactions with high precision while minimizing false positives.
+    
+    \item \textbf{Establish a reproducible pipeline} using DVC (Data Version Control) to version data and orchestrate processing steps.
+    
+    \item \textbf{Implement experiment tracking} with MLflow to log hyperparameters, metrics, and artifacts for each training run.
+    
+    \item \textbf{Deploy the model} as a REST API with FastAPI, production-ready.
+    
+    \item \textbf{Create a modern user interface} with Next.js allowing analysts to interact with the system.
+    
+    \item \textbf{Containerize the application} with Docker to facilitate deployment across different cloud infrastructures.
+\end{enumerate}
+
+\section*{Report Organization}
+
+This report is structured as follows:
+
+\begin{description}
+    \item[Chapter 1] presents the general context of the project, the importance of fraud detection in the banking sector, and precisely defines the problem to be solved.
+    
+    \item[Chapter 2] provides a state of the art of fraud detection techniques and MLOps practices, comparing different existing approaches.
+    
+    \item[Chapter 3] details the exploratory analysis of the dataset used and the preprocessing steps implemented.
+    
+    \item[Chapter 4] describes the modeling process, algorithm selection, training, and performance evaluation.
+    
+    \item[Chapter 5] presents the deployment architecture, REST API, web application, and containerization aspects.
+\end{description}
+
+Finally, we conclude with a synthesis of the work accomplished and propose perspectives for improvement for future work.

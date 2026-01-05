@@ -1,0 +1,48 @@
+# gcloudignore - tells gcloud what NOT to upload
+.git/
+.gitignore
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+
+# Large data files
+data/raw/*.csv
+data/raw/creditcard.csv
+
+# Frontend (305 directories!)
+webapp/
+node_modules/
+.next/
+
+# MLflow artifacts  
+mlruns/
+mlflow.db
+
+# Documentation
+docs/
+*.md
+README.md
+
+# Deployment scripts (not needed in cloud)
+deploy-to-gcp.sh
+test-api.sh
+
+# Docker files
+docker-compose*.yml
+
+# Logs
+*.log
+reports/
+
+# Tests
+tests/
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store

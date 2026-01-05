@@ -93,10 +93,14 @@ export default function BatchPrediction({ disabled }: BatchPredictionProps) {
     setError(null);
 
     try {
-      const predictions = await predictBatch(transactions);
+      const response = await predictBatch(transactions);
       const batchResults: BatchResult[] = transactions.map((tx, idx) => ({
         transaction: tx,
-        prediction: predictions[idx],
+        prediction: {
+          fraud_probability: response.predictions[idx].fraud_probability,
+          is_fraud: response.predictions[idx].is_fraud,
+          threshold: response.predictions[idx].threshold,
+        },
         index: idx,
       }));
       setResults(batchResults);

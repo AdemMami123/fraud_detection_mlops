@@ -1,0 +1,28 @@
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+\thispagestyle{empty}
+
+\section*{Abstract}
+
+Credit card fraud represents losses of several billion dollars annually for the financial industry. This project presents the design and implementation of a complete MLOps (Machine Learning Operations) pipeline for automated fraud detection.
+
+Using the public Kaggle dataset containing 284,807 real transactions, of which only 0.172\% are fraudulent, we developed a system capable of identifying suspicious activities with high accuracy. The Random Forest Classifier model, trained with a class weighting strategy to handle the extreme imbalance, achieves the following performance:
+
+\begin{itemize}
+    \item ROC-AUC: 0.9766 (excellent discrimination capability)
+    \item F1-Score: 0.8223 (good precision/recall balance)
+    \item Recall: 82.65\% (detection of the majority of frauds)
+\end{itemize}
+
+The implemented MLOps infrastructure ensures end-to-end reproducibility and traceability:
+\begin{itemize}
+    \item \textbf{DVC} for data versioning and pipeline orchestration
+    \item \textbf{MLflow} for experiment tracking and model registry
+    \item \textbf{FastAPI} for exposing the model via a high-performance REST API
+    \item \textbf{Docker} for containerization and portable deployment
+\end{itemize}
+
+A modern user interface developed with Next.js and Tailwind CSS allows analysts to interact with the system, whether for single or batch predictions.
+
+\vspace{0.5cm}
+\textbf{Keywords:} MLOps, Fraud Detection, Machine Learning, Random Forest, Imbalanced Classification, DVC, MLflow, FastAPI, Docker, Next.js

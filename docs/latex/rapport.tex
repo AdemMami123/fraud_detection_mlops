@@ -1,0 +1,361 @@
+%% @Author: Ahmad Ben Taleb
+%  @Date:   2026
+%% @Class:  PFE ITBS V3.
+
+\documentclass[a4paper, oneside, 12pt, final]{extreport}
+\usepackage{graphicx}
+
+\parindent 0cm
+\usepackage{makeidx}
+\usepackage{tcolorbox}
+\makeindex
+%\usepackage[french]{babel}
+\usepackage[lined,boxed,commentsnumbered, english, ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{amsthm}
+\usepackage{hyperref}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{exemple}{Example}[chapter]
+
+
+%\usepackage[nottoc]{tocbibind}
+%\addcontentsline{toc}{section}{References}
+
+\providecommand{\keywords}[1]{\textbf{\textit{Mots clés---}} #1}
+\providecommand{\keywordss}[1]{\textbf{\textit{Keywords---}} #1}
+
+\usepackage{etoolbox}
+%\makeatletter
+%\patchcmd{\thebibliography}{%
+%  \chapter*{\bibname}\@mkboth{\MakeUppercase\bibname}%{\MakeUppercase\bibname}}{%
+%  \section{References}}{}{}
+%\makeatother
+
+
+
+\usepackage[nottoc]{tocbibind}
+
+\textwidth 18cm
+\textheight 24cm
+\topmargin -0.5cm
+\oddsidemargin -1cm
+
+% set font encoding for PDFLaTeX or XeLaTeX
+\usepackage{ifxetex}
+\ifxetex
+  \usepackage{fontspec}
+\else
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{lmodern}
+\fi
+
+
+% Enable SageTeX to run SageMath code right inside this LaTeX file.
+% documentation: http://mirrors.ctan.org/macros/latex/contrib/sagetex/sagetexpackage.pdf
+%\usepackage{sagetex}
+
+
+\newcommand{\reportTitle} {%
+  \textsc{MLOps Project Report}
+}
+
+\newcommand{\reportAuthor} {%
+  Adem \textsc{Mami}%
+}
+
+\newcommand{\reportSubject} {%
+  Credit Card Fraud Detection: End-to-End MLOps Pipeline%
+}
+
+\newcommand{\studyDepartment} {%
+  IT Business School (ITBS)
+}
+
+\newcommand{\ITBS} {%
+  %IT Business School
+\\ Ecole Supérieure Privée des Technologies de l'Information et de Management de Nabeul
+}
+
+%\newcommand{\codePFE} {% Reference
+%  Code PFE%
+%}
+
+
+\newcommand{\AU} {
+\centering \textbf{Academic Year 2024-2025}
+}
+
+
+\newcommand{\specialcell}[1]{%
+  \begin{tabularx}{\textwidth}{@{}X@{}}#1\end{tabularx}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Add your own commands here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\MyCommand} {%
+  Does nothing really%
+}
+
+
+% used in maketitle
+\title{\reportSubject}
+\author{\reportAuthor}
+
+% Enable SageTeX to run SageMath code right inside this LaTeX file.
+% documentation: http://mirrors.ctan.org/macros/latex/contrib/sagetex/sagetexpackage.pdf
+%\usepackage{sagetex}
+
+\hypersetup{
+  pdftitle={\reportTitle~-~\reportSubject},%
+  pdfauthor={\reportAuthor},%
+  pdfsubject={\reportSubject},%
+  pdfkeywords={MLOps} {Fraud Detection} {Machine Learning} {DVC} {MLflow}
+}
+
+\usepackage{graphics}
+\usepackage{graphicx}
+
+
+\usepackage[acronym,toc,section=chapter]{glossaries}
+\makeglossaries
+
+\newacronym{abc}{ABC}{A contrived acronym}
+\newacronym{efg}{EFG}{Another acronym}
+\newacronym{svm}{SVM}{Support Vector Machines}
+
+\pagenumbering{roman} 
+
+\usepackage[utf8]{inputenc}
+%\usepackage[french]{babel}
+
+\begin{document}
+\thispagestyle{empty}
+\begin{titlepage}
+\begin{center}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THE HEADER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\includegraphics[scale=0.20]{embleme.jpg}
+\vspace{0.5cm}
+
+{%
+  \fontsize{9pt}{9pt}\selectfont%
+  \begin{tabular}{c}
+    R\'epublique Tunisienne \\
+    Minist\`ere de l'Enseignement Supérieur et de la Recherche Scientifique   \ITBS{}\\ 
+  \end{tabular}
+}
+
+\vspace{1cm}
+
+\includegraphics[scale=0.1]{logonoir.png}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THE PAGE CONTENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vspace{10pt} {%
+  \renewcommand*{\familydefault}{\defaultFont}
+  \fontsize{46pt}{46pt}\selectfont%
+  % MEMOIRE\\%
+  %\reportTitle{}%\\\textsc{Report}\\%
+}
+
+\vspace{5pt}
+
+\vspace{15pt}
+{\textit{Thesis submitted in partial fulfillment of the requirements for the}}\\
+
+\vspace{10pt}
+{\textbf{\large National Diploma in Computer Engineering \\ Specialization: Business Intelligence}}\\
+
+%\includegraphics[scale=0.1]{logonoir.png}\\
+\vspace{5pt}
+\textbf{\textit{Prepared by}}\\
+\vspace{10pt} {%
+  \fontsize{14pt}{14pt}\selectfont%
+  {\bfseries\Large\sc \reportAuthor}\\
+}%
+
+\vspace{5pt} {%
+  \renewcommand*{\familydefault}{\defaultFont}
+  \fontsize{27pt}{27pt}\selectfont%
+  \rule{0.5\textwidth}{.4pt}\\
+  \vspace{10pt}
+  \reportSubject{}\\%
+  \vspace{10pt}
+  \rule{0.5\textwidth}{.4pt}
+}
+
+\vspace{5pt}
+
+%Soutenu le \dateSoutenance, devant la commission d'examen:\\
+\vspace{10pt}
+
+\begin{table}[h]
+\begin{tabular}{lcr}
+\textbf{Academic Supervisor:} Mr. Name      & \hfill &           \textbf{Professional Supervisor:} Mr. Name
+\end{tabular}
+\end{table}
+
+
+
+
+%\vfill
+
+\vspace{40pt}
+\textbf{\textit{Thesis completed at}}\\
+\vspace{5pt}
+\studyDepartment
+\centering
+\includegraphics[scale=0.08]{logonoir.png}
+\end{center}
+\vspace{40pt}
+\AU\\
+\end{titlepage}
+
+% ###############################
+% # HELP COMMANDS               #
+% ###############################
+%
+% -1 \part{part}
+%  0 \chapter{chapter}
+%  1 \section{section}
+%  2 \subsection{subsection}
+%  3 \subsubsection{subsubsection}
+%  4 \paragraph{paragraph}
+%  5 \subparagraph{subparagraph}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dédicace et Remerciements
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{Accord_depot}
+\chapter*{Dedication}
+%\chapter*{D\'edicace}
+%\addcontentsline{toc}{chapter}{Dedication}
+\thispagestyle{empty}
+%
+%For all they have endured to satisfy all my needs and wishes
+
+\begin{center}
+{\it 
+	
+To ... for their sacrifice and support, \\
+as a token of my infinite gratitude and deep attachment \\
+\vspace{1cm}
+To all those who are dear to me...
+
+}
+\end{center}
+%
+%\nopagebreak{%
+% And maybe a quote here
+% \raggedright\hspace{5.75cm} To all of you,~\\
+%\raggedright\hspace{7.75cm} I dedicate this work.
+%  \raggedleft\normalfont\large\itshape{} \reportAuthor\par%
+%}
+%
+%\cleardoublepage%
+
+\chapter*{Acknowledgment}
+%\chapter*{Remerciements}
+%\addcontentsline{toc}{chapter}{Thanks}
+\thispagestyle{empty}
+%
+%Au terme de ce travail (A l'issue de ce travail), je tiens à remercier M., Mme, Pr., Dr. pour sa disponibilité et ses conseils judicieux. \\
+
+Je n'aurais jamais pu réaliser ce projet sans la précieuse aide et sans le soutien d'un grand nombre de personnes dont la générosité, la bonne humeur et l'intérêt manifestés à l'égard de mon PFE m'ont permis de progresser. \\
+
+%En premier lieu, je tiens à remercier mon encadrant universitaire, \juryMemberFour{}, pour la confiance qu'il m'a accordée en acceptant d'encadrer ce travail, pour ses multiples conseils et pour toutes les heures qu'il a consacrées à diriger ce travail. \\ 
+
+%Je souhaiterais exprimer ma gratitude à \juryMemberThree{}, pour m’avoir donné envie de réaliser un mémoire sur ... au sein de \og \studyDepartment \fg. Je le remercie également pour son accueil chaleureux à chaque fois que j'ai sollicité son aide, ainsi que pour ses multiples encouragements. J’ai été extrêmement sensible à ses qualités humaines d'écoute et de compréhension tout au long de ce travail de mémoire. \\
+
+%J'aimerais également dire à \juryPresident{} à quel point je suis honorée pour avoir accepté de présider ce jury de PFE. Je suis infiniment gré à  \juryMemberOne{} de s’être rendu disponible et d’avoir accepté la fonction de rapporteur. De même, je suis particulièrement reconnaissant(e) à (\juryMemberTwo{} de l'intérêt qu'il/elle a manifesté à l'égard de ce projet en s'engageant à être rapporteur. \\
+
+Ma reconnaissance va à ceux qui ont plus particulièrement assuré le soutien affectif de ce travail : ma famille ainsi que mes amis. Mes parents... 
+
+
+\input{abstract.tex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Divers chapitres
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\addtocontents{toc}{\protect\setcounter{tocdepth}{4}}
+\tableofcontents
+%\addcontentsline{toc}{chapter}{\contentsname}
+
+\listoffigures
+%\addcontentsline{toc}{chapter}{Liste des Figures}
+\listoftables
+%\addcontentsline{toc}{chapter}{Liste des Tableaux}
+\printglossaries
+
+\cleardoublepage
+
+\newpage
+\pagenumbering{arabic}
+\chapter*{Introduction Générale}
+\label{chap:general_introduction}
+\input{introduction.tex}
+
+
+\chapter{Contexte Général et Problématique}%
+\label{chap:context}
+\input{chapitre1.tex}
+
+\chapter{État de l'Art}
+\label{chap:stateofart}
+\input{chapitre2.tex}
+
+\chapter{Analyse et Préparation des Données}
+\label{chap:data}
+\input{chapitre3.tex}
+
+\chapter{Modélisation et Entraînement}
+\label{chap:model}
+\input{chapitre4.tex}
+
+\chapter{Déploiement et Application Web}
+\label{chap:deployment}
+\input{chapitre5.tex}
+
+
+\chapter*{Conclusion et Perspectives}
+\label{chap:conclusion}
+\markboth{\MakeUppercase{Conclusion et Perspectives}}{}%
+\addcontentsline{toc}{chapter}{Conclusion et Perspectives}
+\input{conclusion.tex}
+
+\newpage
+\appendix
+\addcontentsline{toc}{chapter}{Appendix}
+
+\chapter{Source Code and Configuration}
+\label{chap:appendix}
+\input{annexe.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\nocite{*}
+
+\bibliographystyle{apalike}
+\renewcommand{\bibname}{References}
+\bibliography{Biblio.bib}
+
+\cleardoublepage%
+
+\printindex
+
+\input{abstract}
+
+
+\end{document}
+
