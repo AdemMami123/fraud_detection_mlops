@@ -10,7 +10,52 @@ import {
   FORM_FIELDS 
 } from '@/types';
 import { predictSingle, validateTransaction } from '@/lib/api';
-import { Send, RotateCcw, AlertCircle, Beaker, Info } from 'lucide-react';
+import { Send, RotateCcw, AlertCircle, Beaker, Info, Clock } from 'lucide-react';
+
+// Helper function to convert seconds to readable time
+const secondsToTime = (seconds: number): string => {
+  const days = Math.floor(seconds / 86400);
+  const hours = Math.floor((seconds % 86400) / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = Math.floor(seconds % 60);
+  
+  const period = hours >= 12 ? 'PM' : 'AM';
+  const displayHours = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
+  
+  let timeStr = `${displayHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')} ${period}`;
+  
+  if (days > 0) {
+    timeStr = `Day ${days + 1}, ${timeStr}`;
+  } else {
+    timeStr = `Day 1, ${timeStr}`;
+  }
+  
+  return timeStr;
+};
+
+// Helper function to convert time string to seconds (optional, for future use)
+const timeToSeconds = (timeStr: string): number => {
+  // Parse format like "Day 2, 02:30:00 PM" or "14:30"
+  const dayMatch = timeStr.match(/Day (\d+)/i);
+  const timeMatch = timeStr.match(/(\d+):(\d+)(?::(\d+))?\s*(AM|PM)?/i);
+  
+  if (!timeMatch) return 0;
+  
+  let hours = parseInt(timeMatch[1]);
+  const minutes = parseInt(timeMatch[2]);
+  const seconds = timeMatch[3] ? parseInt(timeMatch[3]) : 0;
+  const period = timeMatch[4];
+  
+  // Convert to 24-hour format if PM/AM is specified
+  if (period) {
+    if (period.toUpperCase() === 'PM' && hours !== 12) hours += 12;
+    if (period.toUpperCase() === 'AM' && hours === 12) hours = 0;
+  }
+  
+  const days = dayMatch ? parseInt(dayMatch[1]) - 1 : 0;
+  
+  return (days * 86400) + (hours * 3600) + (minutes * 60) + seconds;
+};
 
 interface TransactionFormProps {
   onPrediction: (result: PredictionResponse) => void;
@@ -74,6 +119,21 @@ export default function TransactionForm({
     const sample = type === 'fraud' ? SAMPLE_FRAUD_TRANSACTION : SAMPLE_NORMAL_TRANSACTION;
     setFormData(sample);
     setErrors([]);
+  };
+
+  // Handler for time picker input (converts HH:MM to seconds)
+  const handleTimePickerChange = (timeString: string, dayString: string) => {
+    if (!timeString) return;
+    
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const days = parseInt(dayString) || 0;
+    
+    const totalSeconds = (days * 86400) + (hours * 3600) + (minutes * 60);
+    
+    setFormData((prev) => ({
+      ...prev,
+      Time: totalSeconds,
+    }));
   };
 
   // Separate main fields from V features
@@ -153,6 +213,57 @@ export default function TransactionForm({
               className="input-field"
               disabled={disabled || isSubmitting}
             />
+            {/* Show converted time for Time field */}
+            {field.name === 'Time' && formData.Time > 0 && (
+              <div className="flex items-center gap-1.5 text-xs text-gray-600 mt-1.5 bg-blue-50 border border-blue-200 rounded px-2 py-1">
+                <Clock className="w-3.5 h-3.5 text-blue-600" />
+                <span className="font-medium">{secondsToTime(formData.Time)}</span>
+              </div>
+            )}
+            {/* Time picker for Time field */}
+            {field.name === 'Time' && (
+              <div className="mt-2 space-y-2">
+                <p className="text-xs text-gray-500">Or select time:</p>
+                <div className="flex gap-2">
+                  <div className="flex-1">
+                    <label htmlFor="day-picker" className="block text-xs text-gray-600 mb-1">
+                      Day
+                    </label>
+                    <select
+                      id="day-picker"
+                      onChange={(e) => {
+                        const timeInput = document.getElementById('time-picker') as HTMLInputElement;
+                        if (timeInput && timeInput.value) {
+                          handleTimePickerChange(timeInput.value, e.target.value);
+                        }
+                      }}
+                      className="input-field text-sm"
+                      disabled={disabled || isSubmitting}
+                    >
+                      <option value="0">Day 1</option>
+                      <option value="1">Day 2</option>
+                      <option value="2">Day 3</option>
+                      <option value="3">Day 4</option>
+                    </select>
+                  </div>
+                  <div className="flex-1">
+                    <label htmlFor="time-picker" className="block text-xs text-gray-600 mb-1">
+                      Time (24h)
+                    </label>
+                    <input
+                      type="time"
+                      id="time-picker"
+                      onChange={(e) => {
+                        const daySelect = document.getElementById('day-picker') as HTMLSelectElement;
+                        handleTimePickerChange(e.target.value, daySelect.value);
+                      }}
+                      className="input-field text-sm"
+                      disabled={disabled || isSubmitting}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         ))}
       </div>
