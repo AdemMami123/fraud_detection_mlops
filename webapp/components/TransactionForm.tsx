@@ -91,7 +91,7 @@ export default function TransactionForm({
     // Validate
     const validationErrors = validateTransaction(formData);
     if (validationErrors.length > 0) {
-      setErrors(validationErrors);
+      setErrors(validationErrors.map(e => `${e.field}: ${e.message}`));
       return;
     }
 
