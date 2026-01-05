@@ -1,0 +1,328 @@
+% Appendix: Source Code and Configuration
+
+\section{Project Structure}
+
+The complete project structure is as follows:
+
+\begin{verbatim}
+fraud_detection_mlops/
+|-- api/
+|   +-- main.py                 # FastAPI application
+|-- data/
+|   |-- raw/
+|   |   +-- creditcard.csv      # Raw Kaggle dataset
+|   +-- processed/
+|       |-- train.csv           # Training split
+|       +-- test.csv            # Test split
+|-- models/
+|   +-- rf_model.pkl            # Trained model
+|-- src/
+|   |-- data/
+|   |   +-- make_dataset.py     # Data preprocessing
+|   |-- features/
+|   |   +-- build_features.py   # Feature engineering
+|   +-- models/
+|       |-- train_model.py      # Model training
+|       +-- predict_model.py    # Inference utilities
+|-- webapp/
+|   |-- app/
+|   |   |-- layout.tsx          # Root layout
+|   |   +-- page.tsx            # Main page
+|   |-- components/
+|   |   |-- ApiStatus.tsx
+|   |   |-- TransactionForm.tsx
+|   |   |-- ResultDisplay.tsx
+|   |   |-- BatchPrediction.tsx
+|   |   +-- StatsPanel.tsx
+|   +-- lib/
+|       +-- api.ts              # API client
+|-- docker-compose.yml
+|-- Dockerfile
+|-- dvc.yaml
+|-- params.yaml
++-- requirements.txt
+\end{verbatim}
+
+\section{Configuration File params.yaml}
+
+\begin{verbatim}
+# Configuration file for fraud detection MLOps pipeline
+
+data:
+  raw_path: "data/raw/creditcard.csv"
+  processed_dir: "data/processed"
+  test_size: 0.2
+  random_state: 42
+
+model:
+  type: "RandomForestClassifier"
+  n_estimators: 100
+  max_depth: 10
+  class_weight: "balanced"
+  random_state: 42
+
+train:
+  experiment_name: "fraud-detection-mlflow"
+  threshold: 0.5
+  random_state: 42
+
+paths:
+  model_dir: "models"
+  figures_dir: "reports/figures"
+\end{verbatim}
+
+\section{DVC Pipeline (dvc.yaml)}
+
+\begin{verbatim}
+stages:
+  make_dataset:
+    cmd: python src/data/make_dataset.py
+    deps:
+      - src/data/make_dataset.py
+      - params.yaml
+      - data/raw/creditcard.csv
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+
+  build_features:
+    cmd: python src/features/build_features.py
+    deps:
+      - src/features/build_features.py
+      - params.yaml
+      - data/processed/train.csv
+      - data/processed/test.csv
+    outs:
+      - data/processed/train_features.csv
+      - data/processed/test_features.csv
+
+  train_model:
+    cmd: python src/models/train_model.py
+    deps:
+      - src/models/train_model.py
+      - params.yaml
+      - data/processed/train_features.csv
+      - data/processed/test_features.csv
+    outs:
+      - models/rf_model.pkl
+\end{verbatim}
+
+\section{Preprocessing Script (make\_dataset.py)}
+
+\begin{verbatim}
+import pandas as pd
+import yaml
+from sklearn.model_selection import train_test_split
+
+def main():
+    # Load configuration
+    with open("params.yaml", 'r') as f:
+        params = yaml.safe_load(f)
+    
+    # Load raw data
+    df = pd.read_csv(params['data']['raw_path'])
+    print(f"Data loaded! Shape: {df.shape}")
+    
+    # Split features and target
+    X = df.drop('Class', axis=1)
+    y = df['Class']
+    
+    # Train/test split with stratification
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, 
+        test_size=params['data']['test_size'],
+        random_state=params['data']['random_state'],
+        stratify=y
+    )
+    
+    # Reconstruct DataFrames
+    train_df = pd.concat([X_train, y_train], axis=1)
+    test_df = pd.concat([X_test, y_test], axis=1)
+    
+    # Save processed data
+    train_df.to_csv(
+        f"{params['data']['processed_dir']}/train.csv", 
+        index=False
+    )
+    test_df.to_csv(
+        f"{params['data']['processed_dir']}/test.csv", 
+        index=False
+    )
+    
+    print("Data preprocessing completed!")
+
+if __name__ == "__main__":
+    main()
+\end{verbatim}
+
+\section{Training Script (train\_model.py) - Excerpts}
+
+\begin{verbatim}
+import mlflow
+import mlflow.sklearn
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import (
+    precision_score, recall_score, 
+    f1_score, roc_auc_score
+)
+
+def train_model():
+    # Configure MLflow
+    mlflow.set_tracking_uri("sqlite:///mlflow.db")
+    mlflow.set_experiment(params['train']['experiment_name'])
+    
+    with mlflow.start_run():
+        # Initialize model
+        model = RandomForestClassifier(
+            n_estimators=params['model']['n_estimators'],
+            max_depth=params['model']['max_depth'],
+            class_weight=params['model']['class_weight'],
+            random_state=params['model']['random_state'],
+            n_jobs=-1
+        )
+        
+        # Log parameters
+        mlflow.log_params(params['model'])
+        
+        # Train
+        model.fit(X_train, y_train)
+        
+        # Evaluate
+        y_pred = model.predict(X_test)
+        y_proba = model.predict_proba(X_test)[:, 1]
+        
+        metrics = {
+            'precision': precision_score(y_test, y_pred),
+            'recall': recall_score(y_test, y_pred),
+            'f1': f1_score(y_test, y_pred),
+            'roc_auc': roc_auc_score(y_test, y_proba)
+        }
+        
+        # Log metrics
+        mlflow.log_metrics(metrics)
+        
+        # Log model
+        mlflow.sklearn.log_model(model, "model")
+        
+        # Register model
+        mlflow.register_model(
+            f"runs:/{mlflow.active_run().info.run_id}/model",
+            "fraud_detection_rf"
+        )
+        
+        # Save locally
+        joblib.dump(model, "models/rf_model.pkl")
+        
+    print("Training completed!")
+\end{verbatim}
+
+\section{FastAPI Application (main.py) - Excerpts}
+
+\begin{verbatim}
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
+
+app = FastAPI(
+    title="Fraud Detection API",
+    description="Real-time credit card fraud detection",
+    version="1.0.0"
+)
+
+class Transaction(BaseModel):
+    Time: float
+    Amount: float = Field(..., ge=0)
+    V1: float
+    # ... V2 to V28
+    V28: float
+
+class PredictionResponse(BaseModel):
+    fraud_probability: float
+    is_fraud: bool
+    threshold: float
+
+@app.post("/predict", response_model=PredictionResponse)
+async def predict(transaction: Transaction):
+    if model is None:
+        raise HTTPException(
+            status_code=503, 
+            detail="Model not loaded"
+        )
+    
+    # Convert to dict and predict
+    data = transaction.dict()
+    fraud_prob = predict_proba(model, data)
+    is_fraud = fraud_prob >= threshold
+    
+    return PredictionResponse(
+        fraud_probability=fraud_prob,
+        is_fraud=is_fraud,
+        threshold=threshold
+    )
+\end{verbatim}
+
+\section{Python Libraries Used}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Library} & \textbf{Version} & \textbf{Usage} \\ \hline
+scikit-learn & 1.8.0 & Random Forest, metrics \\ \hline
+pandas & 2.3.3 & Data manipulation \\ \hline
+numpy & 2.4.0 & Numerical operations \\ \hline
+mlflow & 3.8.0 & Experiment tracking \\ \hline
+dvc & latest & Data versioning \\ \hline
+fastapi & 0.127.0 & REST API \\ \hline
+uvicorn & latest & ASGI server \\ \hline
+pydantic & latest & Data validation \\ \hline
+joblib & latest & Model serialization \\ \hline
+\end{tabular}
+\caption{Main Python Libraries}
+\label{tab:libraries}
+\end{table}
+
+\section{Useful Commands}
+
+\subsection{Installation}
+
+\begin{verbatim}
+# Create virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+\end{verbatim}
+
+\subsection{Running the Pipeline}
+
+\begin{verbatim}
+# Reproduce complete pipeline
+dvc repro
+
+# Run specific stage
+dvc repro train_model
+\end{verbatim}
+
+\subsection{Starting Services}
+
+\begin{verbatim}
+# Start API (development)
+uvicorn api.main:app --reload
+
+# Start frontend (development)
+cd webapp && npm run dev
+
+# Start with Docker
+docker-compose up -d
+\end{verbatim}
+
+\subsection{MLflow}
+
+\begin{verbatim}
+# Launch MLflow interface
+mlflow ui
+
+# Access interface at
+# http://localhost:5000
+\end{verbatim}

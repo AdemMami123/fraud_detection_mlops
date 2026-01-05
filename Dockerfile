@@ -56,12 +56,14 @@ COPY params.yaml .
 # Create directories for data and reports (needed at runtime)
 RUN mkdir -p data/processed data/raw reports
 
-# Expose the API port
-EXPOSE 8000
+# Expose the API port (Cloud Run will set PORT env var)
+EXPOSE 8080
 
 # Health check to ensure the API is running
+# Note: Cloud Run uses its own health checks, this is for local testing
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8080/health')" || exit 1
 
 # Run the FastAPI application with Uvicorn
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Use PORT environment variable (Cloud Run requirement)
+CMD exec uvicorn api.main:app --host 0.0.0.0 --port ${PORT:-8080}

@@ -1,0 +1,18 @@
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {1.1}{\ignorespaces Economic impact of credit card fraud}}{4}{table.1.1}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Comparison of different fraud detection approaches}}{9}{table.2.1}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces General characteristics of the dataset}}{13}{table.3.1}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Descriptive statistics of amounts by class}}{15}{table.3.2}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Data distribution after split}}{16}{table.3.3}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Random Forest hyperparameter configuration}}{19}{table.4.1}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Model performance on test set}}{21}{table.4.2}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Threshold impact on metrics}}{23}{table.4.3}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Fraud Detection API Endpoints}}{27}{table.5.1}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Cloud deployment options}}{32}{table.5.2}%
+\contentsline {table}{\numberline {5.3}{\ignorespaces Model Performance Summary}}{35}{table.5.3}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {A.1}{\ignorespaces Main Python Libraries}}{43}{table.A.1}%

@@ -1,0 +1,220 @@
+% Chapter 3: Data Analysis and Preparation
+
+\section{Introduction}
+
+This chapter presents the dataset used for this project and details the exploratory analysis and preprocessing steps. A thorough understanding of the data is essential for building a performant model and avoiding pitfalls related to imbalanced data.
+
+\section{Dataset Presentation}
+
+\subsection{Data Source}
+
+The dataset used comes from the Kaggle platform and was provided by the Machine Learning Group of the Free University of Brussels (ULB). It contains real transactions made by European credit card holders in September 2013.
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.8\textwidth}{\centering\vspace{2cm}\textit{[Placeholder: Screenshot of the Kaggle Credit Card Fraud Detection dataset page]}\vspace{2cm}}}
+    \caption{Kaggle Dataset - Credit Card Fraud Detection}
+    \label{fig:kaggle_dataset}
+\end{figure}
+
+\subsection{Dataset Characteristics}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|r|}
+\hline
+\textbf{Characteristic} & \textbf{Value} \\ \hline
+Total number of transactions & 284,807 \\ \hline
+Number of fraudulent transactions & 492 \\ \hline
+Number of normal transactions & 284,315 \\ \hline
+Fraud rate & 0.172\% \\ \hline
+Number of features & 30 \\ \hline
+File size & ~150 MB \\ \hline
+\end{tabular}
+\caption{General characteristics of the dataset}
+\label{tab:dataset_stats}
+\end{table}
+
+\subsection{Variable Description}
+
+The dataset contains the following variables:
+
+\begin{description}
+    \item[Time] Number of seconds elapsed between this transaction and the first transaction in the dataset. This variable allows analysis of temporal patterns.
+    
+    \item[V1 to V28] These 28 features are the result of a PCA (Principal Component Analysis) transformation applied to the original data. For confidentiality reasons, the original features are not disclosed.
+    
+    \item[Amount] Transaction amount in euros. This is the only non-transformed variable besides Time and Class.
+    
+    \item[Class] Binary target variable: 0 for a normal transaction, 1 for fraud.
+\end{description}
+
+\section{Exploratory Data Analysis (EDA)}
+
+\subsection{Target Variable Distribution}
+
+Analysis of the target variable distribution reveals an extreme imbalance between the two classes:
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}\textit{[Placeholder: Bar chart showing class distribution (Normal: 284,315 vs Fraud: 492)]}\vspace{3cm}}}
+    \caption{Class Distribution - Extreme Imbalance}
+    \label{fig:class_distribution}
+\end{figure}
+
+This imbalance (578:1 ratio) poses a major challenge for training classification models, as a naive classifier could achieve 99.83\% accuracy by systematically predicting the majority class.
+
+\subsection{Time Variable Analysis}
+
+Analysis of the Time variable reveals interesting patterns:
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{3cm}\textit{[Placeholder: Histogram of temporal distribution of transactions, with a separate curve for frauds]}\vspace{3cm}}}
+    \caption{Temporal Distribution of Transactions}
+    \label{fig:time_distribution}
+\end{figure}
+
+Key observations are:
+\begin{itemize}
+    \item Transactions are spread over approximately 48 hours (172,800 seconds).
+    \item A cyclical day/night pattern is visible for normal transactions.
+    \item Frauds appear less correlated with normal temporal patterns.
+\end{itemize}
+
+\subsection{Amount Variable Analysis}
+
+Transaction amount analysis shows significant differences between classes:
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{3cm}\textit{[Placeholder: Box plots comparing amount distribution for normal vs fraudulent transactions]}\vspace{3cm}}}
+    \caption{Amount Distribution by Class}
+    \label{fig:amount_distribution}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|r|r|}
+\hline
+\textbf{Statistic} & \textbf{Normal} & \textbf{Fraud} \\ \hline
+Mean & \$88.29 & \$122.21 \\ \hline
+Median & \$22.00 & \$9.25 \\ \hline
+Standard Deviation & \$250.11 & \$256.68 \\ \hline
+Maximum & \$25,691.16 & \$2,125.87 \\ \hline
+\end{tabular}
+\caption{Descriptive statistics of amounts by class}
+\label{tab:amount_stats}
+\end{table}
+
+\subsection{Correlation Analysis}
+
+Analysis of the correlation matrix between PCA features and the target variable helps identify the most predictive variables:
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{4cm}\textit{[Placeholder: Correlation heatmap between main features and Class variable]}\vspace{4cm}}}
+    \caption{Correlation Matrix of Main Features}
+    \label{fig:correlation_matrix}
+\end{figure}
+
+The features most correlated (positively or negatively) with fraud are:
+\begin{itemize}
+    \item V17 (strong negative correlation)
+    \item V14 (strong negative correlation)
+    \item V12 (strong negative correlation)
+    \item V10 (negative correlation)
+    \item V11 (positive correlation)
+\end{itemize}
+
+\section{Data Preprocessing}
+
+\subsection{Preprocessing Pipeline}
+
+Preprocessing is implemented in the \texttt{src/data/make\_dataset.py} script and orchestrated by DVC. The pipeline includes the following steps:
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.9\textwidth}{\centering\vspace{3cm}\textit{[Placeholder: Flowchart of preprocessing pipeline: Raw Data $\rightarrow$ Validation $\rightarrow$ Split $\rightarrow$ Scaling $\rightarrow$ Processed Data]}\vspace{3cm}}}
+    \caption{Data Preprocessing Pipeline}
+    \label{fig:preprocessing_pipeline}
+\end{figure}
+
+\subsection{Train/Test Split}
+
+Data is divided into training and test sets with the following parameters:
+
+\begin{itemize}
+    \item \textbf{Ratio}: 80\% training / 20\% test
+    \item \textbf{Stratification}: Maintaining the fraud ratio in each set
+    \item \textbf{Random State}: 42 (for reproducibility)
+\end{itemize}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|r|r|r|}
+\hline
+\textbf{Set} & \textbf{Total} & \textbf{Frauds} & \textbf{Rate} \\ \hline
+Training & 227,845 & 394 & 0.173\% \\ \hline
+Test & 56,962 & 98 & 0.172\% \\ \hline
+\end{tabular}
+\caption{Data distribution after split}
+\label{tab:data_split}
+\end{table}
+
+\subsection{Feature Normalization}
+
+The \texttt{Time} and \texttt{Amount} variables are normalized using a StandardScaler to put them on the same scale as the PCA components (already normalized):
+
+\begin{equation}
+    z = \frac{x - \mu}{\sigma}
+\end{equation}
+
+where $\mu$ is the mean and $\sigma$ the standard deviation calculated on the training set only (to avoid data leakage).
+
+\subsection{Handling Class Imbalance}
+
+Several strategies exist for handling class imbalance:
+
+\begin{description}
+    \item[Undersampling] Reducing the number of majority class examples. Risk of losing important information.
+    
+    \item[Oversampling (SMOTE)] Generating synthetic examples of the minority class.
+    
+    \item[Class Weighting] Assigning a higher weight to minority class examples during training.
+\end{description}
+
+In this project, we use \textbf{class weighting} via the \texttt{class\_weight='balanced'} parameter of Random Forest, which automatically adjusts weights based on the class ratio.
+
+\section{Versioning with DVC}
+
+\subsection{Pipeline Configuration}
+
+The \texttt{dvc.yaml} file defines the preprocessing pipeline:
+
+\begin{verbatim}
+stages:
+  make_dataset:
+    cmd: python src/data/make_dataset.py
+    deps:
+      - src/data/make_dataset.py
+      - params.yaml
+      - data/raw/creditcard.csv
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+\end{verbatim}
+
+\subsection{Benefits of Versioning}
+
+Using DVC provides several advantages:
+
+\begin{itemize}
+    \item \textbf{Reproducibility}: The \texttt{dvc repro} command reproduces exactly the same pipeline.
+    \item \textbf{Traceability}: Each data version is linked to a Git commit.
+    \item \textbf{Collaboration}: Large files are shared via remote storage.
+\end{itemize}
+
+\section{Summary}
+
+This chapter presented an in-depth analysis of the Credit Card Fraud Detection dataset. The extreme class imbalance (0.172\% frauds) was identified as the main challenge. The preprocessing pipeline, including stratified split and normalization, has been implemented and versioned with DVC. The following chapter will detail model training and performance evaluation.

@@ -1,0 +1,31 @@
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Evolution of global electronic transaction volume}}{3}{figure.1.1}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Taxonomy of Card-Not-Present frauds}}{4}{figure.1.2}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Random Forest Classifier Architecture}}{8}{figure.2.1}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces MLOps Lifecycle}}{9}{figure.2.2}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces DVC Integration with Git}}{10}{figure.2.3}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Kaggle Dataset - Credit Card Fraud Detection}}{12}{figure.3.1}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Class Distribution - Extreme Imbalance}}{13}{figure.3.2}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Temporal Distribution of Transactions}}{14}{figure.3.3}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Amount Distribution by Class}}{14}{figure.3.4}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Correlation Matrix of Main Features}}{15}{figure.3.5}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Data Preprocessing Pipeline}}{16}{figure.3.6}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Detailed Random Forest Architecture}}{19}{figure.4.1}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces MLflow Tracking Interface}}{20}{figure.4.2}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Confusion Matrix on Test Set}}{22}{figure.4.3}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces ROC Curve (AUC = 0.9766)}}{22}{figure.4.4}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Precision-Recall Curve}}{23}{figure.4.5}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Feature Importance (Top 15)}}{24}{figure.4.6}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Overall Architecture of the Fraud Detection System}}{26}{figure.5.1}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces API Swagger Documentation}}{27}{figure.5.2}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Main Interface of Fraud Detection Application}}{28}{figure.5.3}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Transaction Input Form}}{29}{figure.5.4}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Batch Prediction Interface}}{30}{figure.5.5}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Statistics Dashboard}}{30}{figure.5.6}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Responsive Application Design}}{31}{figure.5.7}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Docker Compose Architecture}}{31}{figure.5.8}%
+\addvspace {10\p@ }

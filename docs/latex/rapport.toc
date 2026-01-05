@@ -1,0 +1,134 @@
+\contentsline {chapter}{Abstract}{iv}{chapter*.3}%
+\setcounter {tocdepth}{4}
+\contentsline {chapter}{List of Figures}{ix}{chapter*.6}%
+\contentsline {chapter}{List of Tables}{x}{chapter*.7}%
+\contentsline {chapter}{General Introduction}{1}{chapter*.8}%
+\contentsline {chapter}{\numberline {1}Contexte Général et Problématique}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Introduction}{3}{section.1.1}%
+\contentsline {section}{\numberline {1.2}The Electronic Payments Sector}{3}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Market Evolution}{3}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Economic Impact of Fraud}{4}{subsection.1.2.2}%
+\contentsline {section}{\numberline {1.3}Types of Credit Card Fraud}{4}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Lost or Stolen Card Fraud}{4}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Card-Not-Present (CNP) Fraud}{4}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Identity Theft Fraud}{4}{subsection.1.3.3}%
+\contentsline {subsection}{\numberline {1.3.4}Friendly Fraud (Chargeback Fraud)}{5}{subsection.1.3.4}%
+\contentsline {section}{\numberline {1.4}Regulatory Framework}{5}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}PCI-DSS Standards}{5}{subsection.1.4.1}%
+\contentsline {subsection}{\numberline {1.4.2}PSD2 Directive and Strong Authentication}{5}{subsection.1.4.2}%
+\contentsline {section}{\numberline {1.5}Problem Definition}{5}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Problem Statement}{5}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Technical Constraints}{5}{subsection.1.5.2}%
+\contentsline {section}{\numberline {1.6}Summary}{6}{section.1.6}%
+\contentsline {chapter}{\numberline {2}État de l'Art}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Introduction}{7}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Fraud Detection Techniques}{7}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Rule-Based Approaches}{7}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Statistical Approaches}{7}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Machine Learning Approaches}{8}{subsection.2.2.3}%
+\contentsline {subsubsection}{Decision Trees and Ensembles}{8}{section*.13}%
+\contentsline {subsubsection}{Neural Networks}{8}{section*.14}%
+\contentsline {subsection}{\numberline {2.2.4}Comparison of Approaches}{9}{subsection.2.2.4}%
+\contentsline {section}{\numberline {2.3}Introduction to MLOps}{9}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Definition and Principles}{9}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}MLOps Maturity Levels}{10}{subsection.2.3.2}%
+\contentsline {section}{\numberline {2.4}MLOps Tools Used}{10}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}DVC (Data Version Control)}{10}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}MLflow}{10}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}FastAPI}{11}{subsection.2.4.3}%
+\contentsline {subsection}{\numberline {2.4.4}Docker}{11}{subsection.2.4.4}%
+\contentsline {section}{\numberline {2.5}Related Work}{11}{section.2.5}%
+\contentsline {section}{\numberline {2.6}Summary}{11}{section.2.6}%
+\contentsline {chapter}{\numberline {3}Analyse et Préparation des Données}{12}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Introduction}{12}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Dataset Presentation}{12}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Data Source}{12}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Dataset Characteristics}{12}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Variable Description}{12}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Exploratory Data Analysis (EDA)}{13}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Target Variable Distribution}{13}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Time Variable Analysis}{14}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Amount Variable Analysis}{14}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Correlation Analysis}{15}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Data Preprocessing}{15}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Preprocessing Pipeline}{15}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Train/Test Split}{16}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Feature Normalization}{16}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}Handling Class Imbalance}{16}{subsection.3.4.4}%
+\contentsline {section}{\numberline {3.5}Versioning with DVC}{17}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Pipeline Configuration}{17}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Benefits of Versioning}{17}{subsection.3.5.2}%
+\contentsline {section}{\numberline {3.6}Summary}{17}{section.3.6}%
+\contentsline {chapter}{\numberline {4}Modélisation et Entraînement}{18}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{18}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Model Selection}{18}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Selection Criteria}{18}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Random Forest Classifier}{18}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Hyperparameter Configuration}{19}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Main Parameters}{19}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Impact of Class Weighting}{19}{subsection.4.3.2}%
+\contentsline {section}{\numberline {4.4}Training with MLflow}{20}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}MLflow Configuration}{20}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Recorded Metrics}{20}{subsection.4.4.2}%
+\contentsline {section}{\numberline {4.5}Performance Evaluation}{21}{section.4.5}%
+\contentsline {subsection}{\numberline {4.5.1}Metrics Used}{21}{subsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5.2}Results Obtained}{21}{subsection.4.5.2}%
+\contentsline {subsection}{\numberline {4.5.3}Confusion Matrix}{21}{subsection.4.5.3}%
+\contentsline {subsection}{\numberline {4.5.4}ROC Curve}{21}{subsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.5.5}Precision-Recall Curve}{21}{subsection.4.5.5}%
+\contentsline {section}{\numberline {4.6}Feature Importance}{22}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Classification Threshold Selection}{23}{section.4.7}%
+\contentsline {subsection}{\numberline {4.7.1}Threshold Impact}{23}{subsection.4.7.1}%
+\contentsline {subsection}{\numberline {4.7.2}Cost-Benefit Analysis}{23}{subsection.4.7.2}%
+\contentsline {section}{\numberline {4.8}Model Saving and Registry}{23}{section.4.8}%
+\contentsline {subsection}{\numberline {4.8.1}Model Serialization}{23}{subsection.4.8.1}%
+\contentsline {subsection}{\numberline {4.8.2}MLflow Registry}{24}{subsection.4.8.2}%
+\contentsline {section}{\numberline {4.9}Summary}{24}{section.4.9}%
+\contentsline {chapter}{\numberline {5}Déploiement et Application Web}{25}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Introduction}{25}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Overall System Architecture}{25}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Overview}{25}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Data Flow}{25}{subsection.5.2.2}%
+\contentsline {section}{\numberline {5.3}REST API with FastAPI}{26}{section.5.3}%
+\contentsline {subsection}{\numberline {5.3.1}Why FastAPI}{26}{subsection.5.3.1}%
+\contentsline {subsection}{\numberline {5.3.2}API Structure}{26}{subsection.5.3.2}%
+\contentsline {subsection}{\numberline {5.3.3}Available Endpoints}{26}{subsection.5.3.3}%
+\contentsline {subsection}{\numberline {5.3.4}Data Model}{26}{subsection.5.3.4}%
+\contentsline {subsection}{\numberline {5.3.5}Error Handling}{27}{subsection.5.3.5}%
+\contentsline {subsection}{\numberline {5.3.6}Logging and Monitoring}{28}{subsection.5.3.6}%
+\contentsline {section}{\numberline {5.4}User Interface with Next.js}{28}{section.5.4}%
+\contentsline {subsection}{\numberline {5.4.1}Technologies Used}{28}{subsection.5.4.1}%
+\contentsline {subsection}{\numberline {5.4.2}Interface Features}{28}{subsection.5.4.2}%
+\contentsline {subsubsection}{Single Prediction}{29}{section*.15}%
+\contentsline {subsubsection}{Batch Prediction}{29}{section*.16}%
+\contentsline {subsubsection}{Statistics Dashboard}{29}{section*.17}%
+\contentsline {subsection}{\numberline {5.4.3}Responsive Design}{30}{subsection.5.4.3}%
+\contentsline {section}{\numberline {5.5}Containerization with Docker}{30}{section.5.5}%
+\contentsline {subsection}{\numberline {5.5.1}Docker Architecture}{30}{subsection.5.5.1}%
+\contentsline {subsection}{\numberline {5.5.2}Dockerfile}{30}{subsection.5.5.2}%
+\contentsline {subsection}{\numberline {5.5.3}Docker Compose}{32}{subsection.5.5.3}%
+\contentsline {subsection}{\numberline {5.5.4}Starting Services}{32}{subsection.5.5.4}%
+\contentsline {section}{\numberline {5.6}Cloud Deployment}{32}{section.5.6}%
+\contentsline {subsection}{\numberline {5.6.1}Deployment Options}{32}{subsection.5.6.1}%
+\contentsline {subsection}{\numberline {5.6.2}Example: Google Cloud Run Deployment}{32}{subsection.5.6.2}%
+\contentsline {section}{\numberline {5.7}Security}{33}{section.5.7}%
+\contentsline {subsection}{\numberline {5.7.1}Implemented Measures}{33}{subsection.5.7.1}%
+\contentsline {subsection}{\numberline {5.7.2}Production Recommendations}{33}{subsection.5.7.2}%
+\contentsline {section}{\numberline {5.8}Summary}{33}{section.5.8}%
+\contentsline {chapter}{Conclusion et Perspectives}{34}{chapter*.18}%
+\contentsline {chapter}{Appendix}{38}{section*.31}%
+\contentsline {chapter}{\numberline {A}Source Code and Configuration}{38}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Project Structure}{38}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Configuration File params.yaml}{39}{section.A.2}%
+\contentsline {section}{\numberline {A.3}DVC Pipeline (dvc.yaml)}{39}{section.A.3}%
+\contentsline {section}{\numberline {A.4}Preprocessing Script (make\_dataset.py)}{40}{section.A.4}%
+\contentsline {section}{\numberline {A.5}Training Script (train\_model.py) - Excerpts}{41}{section.A.5}%
+\contentsline {section}{\numberline {A.6}FastAPI Application (main.py) - Excerpts}{42}{section.A.6}%
+\contentsline {section}{\numberline {A.7}Python Libraries Used}{43}{section.A.7}%
+\contentsline {section}{\numberline {A.8}Useful Commands}{44}{section.A.8}%
+\contentsline {subsection}{\numberline {A.8.1}Installation}{44}{subsection.A.8.1}%
+\contentsline {subsection}{\numberline {A.8.2}Running the Pipeline}{44}{subsection.A.8.2}%
+\contentsline {subsection}{\numberline {A.8.3}Starting Services}{44}{subsection.A.8.3}%
+\contentsline {subsection}{\numberline {A.8.4}MLflow}{44}{subsection.A.8.4}%
+\contentsline {chapter}{References}{45}{appendix*.32}%
+\contentsline {chapter}{Abstract}{47}{appendix*.33}%

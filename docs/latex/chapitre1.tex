@@ -1,0 +1,110 @@
+% Chapter 1: General Context and Problem Statement
+
+\section{Introduction}
+
+This chapter presents the general context of this project. We begin with an overview of the electronic payments sector and the growing importance of transaction security. Then, we detail the specific challenges of fraud detection and the associated issues.
+
+\section{The Electronic Payments Sector}
+
+\subsection{Market Evolution}
+
+The electronic payments market has experienced exponential growth over recent decades. With the advent of e-commerce, contactless payments, and digital wallets, the volume of transactions processed daily has reached unprecedented levels.
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.8\textwidth}{\centering\vspace{2cm}\textit{[Placeholder: Graph showing evolution of global electronic transaction volume 2015-2025]}\vspace{2cm}}}
+    \caption{Evolution of global electronic transaction volume}
+    \label{fig:transaction_volume}
+\end{figure}
+
+The main market players include:
+\begin{itemize}
+    \item Card networks (Visa, Mastercard, American Express)
+    \item Issuing and acquiring banks
+    \item Payment processors (Stripe, PayPal, Adyen)
+    \item Fintechs and neobanks
+\end{itemize}
+
+\subsection{Economic Impact of Fraud}
+
+Credit card fraud represents a considerable cost for the financial industry. These losses manifest in several forms:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|r|}
+\hline
+\textbf{Cost Type} & \textbf{Estimated Impact} \\ \hline
+Direct losses (refunds) & \$32+ billion/year \\ \hline
+Detection operational costs & \$8+ billion/year \\ \hline
+Loss of customer trust & Difficult to quantify \\ \hline
+Regulatory fines (PCI-DSS) & Variable \\ \hline
+\end{tabular}
+\caption{Economic impact of credit card fraud}
+\label{tab:fraud_impact}
+\end{table}
+
+\section{Types of Credit Card Fraud}
+
+Credit card frauds can be classified into several main categories:
+
+\subsection{Lost or Stolen Card Fraud}
+
+This type of fraud occurs when a fraudster physically uses a card that does not belong to them. Although this is the most traditional form, it remains common at physical points of sale.
+
+\subsection{Card-Not-Present (CNP) Fraud}
+
+CNP fraud occurs during transactions where the card is not physically present, typically for online purchases. This is the fastest-growing form of fraud with the rise of e-commerce.
+
+\begin{figure}[h]
+    \centering
+    \fbox{\parbox{0.8\textwidth}{\centering\vspace{2cm}\textit{[Placeholder: Diagram illustrating different types of CNP fraud]}\vspace{2cm}}}
+    \caption{Taxonomy of Card-Not-Present frauds}
+    \label{fig:cnp_fraud}
+\end{figure}
+
+\subsection{Identity Theft Fraud}
+
+In this case, the fraudster obtains enough personal information to open new accounts or modify existing accounts in the victim's name.
+
+\subsection{Friendly Fraud (Chargeback Fraud)}
+
+Also called "chargeback fraud," this occurs when a legitimate customer makes a purchase then disputes the transaction with their bank, claiming they did not make it.
+
+\section{Regulatory Framework}
+
+\subsection{PCI-DSS Standards}
+
+The Payment Card Industry Data Security Standard (PCI-DSS) defines security requirements for organizations that process payment card data. Compliance with these standards is mandatory and non-compliance can result in significant fines.
+
+\subsection{PSD2 Directive and Strong Authentication}
+
+In Europe, the PSD2 directive (Payment Services Directive 2) mandates Strong Customer Authentication (SCA) for electronic payments, adding an additional layer of security.
+
+\section{Problem Definition}
+
+\subsection{Problem Statement}
+
+\begin{tcolorbox}[colback=blue!5!white,colframe=blue!75!black,title=Problem Statement]
+How to design and deploy a credit card fraud detection system that is:
+\begin{enumerate}
+    \item Accurate enough to detect the majority of frauds while minimizing false positives
+    \item Capable of processing transactions in real-time
+    \item Easily maintainable and scalable through MLOps practices
+    \item Reproducible and traceable to meet audit requirements
+\end{enumerate}
+\end{tcolorbox}
+
+\subsection{Technical Constraints}
+
+The constraints identified for this project are:
+
+\begin{description}
+    \item[Performance] The model must achieve a recall greater than 80\% while maintaining acceptable precision.
+    \item[Latency] Predictions must be provided in less than 100 milliseconds.
+    \item[Scalability] The system must be able to handle load spikes during high-activity periods (holidays, sales).
+    \item[Interpretability] Model decisions must be explainable to fraud analysts.
+\end{description}
+
+\section{Summary}
+
+This chapter has presented the economic and regulatory context of credit card fraud detection. The different types of fraud have been identified, along with their impact on the industry. The problem has been formally defined, laying the groundwork for the following chapters that will detail the state of the art and our solution approach.

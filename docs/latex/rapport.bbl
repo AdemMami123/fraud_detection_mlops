@@ -1,0 +1,101 @@
+\begin{thebibliography}{}
+
+\bibitem[Amershi et~al., 2019]{amershi_ml_practice}
+Amershi, S., Begel, A., Bird, C., DeLine, R., Gall, H., Kamar, E., Nagappan,
+  N., Nushi, B., and Zimmermann, T. (2019).
+\newblock Software engineering for machine learning: A case study.
+\newblock {\em IEEE/ACM 41st International Conference on Software Engineering:
+  Software Engineering in Practice (ICSE-SEIP)}, pages 291--300.
+
+\bibitem[Bhattacharyya et~al., 2011]{bhattacharyya_fraud}
+Bhattacharyya, S., Jha, S., Tharakunnel, K., and Westland, J.~C. (2011).
+\newblock Data mining for credit card fraud: A comparative study.
+\newblock {\em Decision Support Systems}, 50(3):602--613.
+
+\bibitem[Breiman, 2001]{breiman_random_forest}
+Breiman, L. (2001).
+\newblock Random forests.
+\newblock {\em Machine Learning}, 45(1):5--32.
+
+\bibitem[Chawla et~al., 2002]{chawla_smote}
+Chawla, N.~V., Bowyer, K.~W., Hall, L.~O., and Kegelmeyer, W.~P. (2002).
+\newblock Smote: Synthetic minority over-sampling technique.
+\newblock {\em Journal of Artificial Intelligence Research}, 16:321--357.
+
+\bibitem[Dal~Pozzolo et~al., 2015]{dal_pozzolo_fraud}
+Dal~Pozzolo, A., Caelen, O., Johnson, R.~A., and Bontempi, G. (2015).
+\newblock Calibrating probability with undersampling for unbalanced
+  classification.
+\newblock {\em IEEE Symposium Series on Computational Intelligence}, pages
+  159--166.
+
+\bibitem[{Databricks}, 2024]{mlflow_docs}
+{Databricks} (2024).
+\newblock {\em MLflow: An Open Source Platform for the Machine Learning
+  Lifecycle}.
+
+\bibitem[{Docker Inc.}, 2024]{docker_docs}
+{Docker Inc.} (2024).
+\newblock {\em Docker Documentation}.
+
+\bibitem[G{\'e}ron, 2022]{geron_ml}
+G{\'e}ron, A. (2022).
+\newblock {\em Hands-On Machine Learning with Scikit-Learn, Keras, and
+  TensorFlow}.
+\newblock O'Reilly Media, 3rd edition.
+
+\bibitem[He and Garcia, 2009]{he_imbalanced_learning}
+He, H. and Garcia, E.~A. (2009).
+\newblock Learning from imbalanced data.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering},
+  21(9):1263--1284.
+
+\bibitem[{Iterative}, 2024]{dvc_docs}
+{Iterative} (2024).
+\newblock {\em Data Version Control: Git for Data Scientists \& ML Engineers}.
+
+\bibitem[{Machine Learning Group - ULB}, 2013]{kaggle_fraud}
+{Machine Learning Group - ULB} (2013).
+\newblock Credit card fraud detection dataset.
+\newblock \url{https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud}.
+\newblock Accessed: January 2025.
+
+\bibitem[McKinney, 2022]{mckinney_pandas}
+McKinney, W. (2022).
+\newblock {\em Python for Data Analysis: Data Wrangling with Pandas, NumPy, and
+  IPython}.
+\newblock O'Reilly Media, 3rd edition.
+
+\bibitem[Pedregosa et~al., 2011]{scikit_learn}
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel,
+  O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J.,
+  Passos, A., Cournapeau, D., Brucher, M., Perrot, M., and Duchesnay, E.
+  (2011).
+\newblock Scikit-learn: Machine learning in {P}ython.
+\newblock {\em Journal of Machine Learning Research}, 12:2825--2830.
+
+\bibitem[Ram{\'i}rez, 2024]{fastapi_docs}
+Ram{\'i}rez, S. (2024).
+\newblock {\em FastAPI: Modern, Fast (high-performance), Web Framework for
+  Building APIs with Python}.
+
+\bibitem[Sculley et~al., 2015]{mlops_google}
+Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D.,
+  Chaudhary, V., Young, M., Crespo, J.-F., and Dennison, D. (2015).
+\newblock Hidden technical debt in machine learning systems.
+\newblock {\em Advances in Neural Information Processing Systems}, 28.
+
+\bibitem[{Tailwind Labs}, 2024]{tailwindcss_docs}
+{Tailwind Labs} (2024).
+\newblock {\em Tailwind CSS: A Utility-First CSS Framework}.
+
+\bibitem[{The Nilson Report}, 2023]{nilson_report}
+{The Nilson Report} (2023).
+\newblock Global card fraud losses.
+\newblock Technical report, Nilson Report.
+
+\bibitem[{Vercel}, 2024]{nextjs_docs}
+{Vercel} (2024).
+\newblock {\em Next.js: The React Framework for the Web}.
+
+\end{thebibliography}
